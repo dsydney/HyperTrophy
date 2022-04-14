@@ -1,11 +1,13 @@
 package com.example.hypertrophy.ui
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -17,34 +19,32 @@ import com.example.hypertrophy.model.network.ExerciseInfo
 import com.example.hypertrophy.viewModel.ExercisesViewModel
 
 @Composable
-fun Screen_BorrowsAllExercise(exercisesViewModel: ExercisesViewModel) {
+fun Screen_BrowseAllExercise(exercisesViewModel: ExercisesViewModel) {
 
     var tabIndex by remember { mutableStateOf(0) }
-
-    //todo should be replaced by viewModel variable
-    val tabTitles = listOf("cardio", "back", "chest","lower arms","lower legs","neck","shoulders","upper arms","upper legs","waist")
 
     Scaffold {
 
         Column {
 
             ScrollableTabRow(selectedTabIndex = tabIndex) {
-                tabTitles.forEachIndexed { index, title ->
+                exercisesViewModel.bodyPartList.forEachIndexed { index, title ->
                     Tab(selected = tabIndex == index,
                         onClick = { tabIndex = index },
                         text = { Text(text = title) })
                 }
             }
-            TabContent(tabIndex,tabTitles,exercisesViewModel)
+            TabContent(tabIndex,exercisesViewModel)
         }
     }
 }
 
 @Composable
-fun TabContent(tabIndex:Int,tabTitles:List<String>,exercisesViewModel: ExercisesViewModel){
+fun TabContent(tabIndex:Int,exercisesViewModel: ExercisesViewModel){
 
     var typeExpanded by remember { mutableStateOf(false) }
 
+//    var targetedMuscle by rememberSaveable{ mutableStateOf("")}
 
     Column {
 
@@ -59,7 +59,8 @@ fun TabContent(tabIndex:Int,tabTitles:List<String>,exercisesViewModel: Exercises
 
         LazyColumn(){
 
-            items(exercisesViewModel.exerciseList.value){
+            items(exercisesViewModel.exerciseList.value.filter{ it.bodyPart == exercisesViewModel.bodyPartList[tabIndex] /*&& targetedMuscle in it.target*/}){
+
                 it ->
                 exerciseInfoCard(exerciseInfo = it)
             }

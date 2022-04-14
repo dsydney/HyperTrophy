@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import com.example.hypertrophy.model.network.ExerciseInfo
-import com.example.hypertrophy.ui.Screen_BorrowsAllExercise
+import com.example.hypertrophy.ui.Screen_BrowseAllExercise
 import com.example.hypertrophy.ui.exerciseInfoCard
 import com.example.hypertrophy.ui.theme.HyperTrophyTheme
 import com.example.hypertrophy.viewModel.ExercisesViewModel
@@ -36,7 +36,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    SplashScreen()
+                    Screen_BrowseAllExercise(exercisesViewModel = exercisesViewModel)
                 }
             }
         }
