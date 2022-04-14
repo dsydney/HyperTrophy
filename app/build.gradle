@@ -47,6 +47,10 @@ android {
 
 dependencies {
 
+    // Number Picker
+    implementation "com.chargemap.compose:numberpicker:1.0.3"
+
+    implementation 'androidx.navigation:navigation-compose:2.4.2'
 
 
     implementation 'androidx.core:core-ktx:1.7.0'
